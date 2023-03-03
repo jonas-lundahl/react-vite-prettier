@@ -33,7 +33,7 @@ jobs:
           fi
           
       - name: Zip build
-        run: zip -r -j ./dist.zip ./dist
+        run: zip -r ./dist.zip ./dist
 
       - name: Define release version
         run: |
