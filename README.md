@@ -9,17 +9,15 @@
 
 Please set the following settings in your IntelliJ -> `Ctrl+Shift+S` (on Windows).
 
-### ESLint
+### Line Separators
 
-ESLint is a popular open-source JavaScript linter that helps developers find and fix problems in their code.
-Linting is the process of analyzing code for potential errors, style issues,
-and other problems that may make the code harder to read or maintain.
+To avoid false positives in commit diffs when formatting files, a consistent line endings are used.
 
-Found in `Languages & Frameworks > JavaScript > Code Quality Tools > ESLint`.
+Found in `Editor > Code Style`.
 
-Set up ESLint by enabling "Automatic ESLint configuration" and "Run eslint --fix on save".
+Set up consistent line endings by setting Line separator to "Unix and macOS (\n)".
 
-![eslint-config](https://user-images.githubusercontent.com/90792675/222810334-10ef43e8-c38f-44b2-b6c4-923c899e5a81.png)
+![code-style-config](https://user-images.githubusercontent.com/90792675/222815394-6e874ab5-0789-4e9d-8c93-fc3d737f834e.png)
 
 ### Prettier
 
@@ -37,3 +35,15 @@ Set up Prettier by:
 4. The "On Save" checkbox is enabled.
 
 ![prettier-config](https://user-images.githubusercontent.com/90792675/222812153-801e0500-5f0e-4b85-b780-d403d1cd3f7c.png)
+
+### ESLint
+
+ESLint is a popular open-source JavaScript linter that helps developers find and fix problems in their code.
+Linting is the process of analyzing code for potential errors, style issues,
+and other problems that may make the code harder to read or maintain.
+
+Found in `Languages & Frameworks > JavaScript > Code Quality Tools > ESLint`.
+
+Set up ESLint by enabling "Automatic ESLint configuration" and "Run eslint --fix on save".
+
+![eslint-config](https://user-images.githubusercontent.com/90792675/222810334-10ef43e8-c38f-44b2-b6c4-923c899e5a81.png)
