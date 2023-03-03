@@ -11,7 +11,7 @@ Please set the following settings in your IntelliJ → `Ctrl+Shift+S` (on Window
 
 ### Line Separators
 
-To avoid false positives in commit diffs when formatting files, a consistent line endings are used.
+To avoid false positives in commit diffs when formatting files, consistent line endings are used.
 
 Found in `Editor > Code Style`.
 
