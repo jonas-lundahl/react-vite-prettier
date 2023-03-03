@@ -5,6 +5,18 @@ import "./App.css";
 function App() {
   const [count, setCount] = React.useState(0);
 
+  React.useEffect(() => {
+    function handleMouseMove() {
+      setCount((count) => count + 1);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   return (
     <div className="App">
       <div>
