@@ -7,7 +7,7 @@
 
 ## Before Coding
 
-Please set the following settings in your IntelliJ → `Ctrl+Shift+S` (on Windows).
+Please set the following settings in your IntelliJ → `Ctrl+Alt+S` (on Windows).
 
 ### Line Separators
 
