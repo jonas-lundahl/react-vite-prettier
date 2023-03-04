@@ -32,21 +32,21 @@ jobs:
             exit 1
           fi
 
-      - name: Set build version and date
+      - name: Define release data
         run: |
-          BUILD_VERSION=$(git describe --tags --abbrev=0)
-          sed -i -- 's/%BUILD-VERSION%/'$BUILD_VERSION'/g' dist/index.html
-          echo "Build Version = $BUILD_VERSION"
-          BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-          sed -i -- 's/%BUILD-DATE%/'$BUILD_DATE'/g' dist/index.html
-          echo "Build Date = $BUILD_DATE"
+          echo "RELEASE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          echo "RELEASE_DATE=${{ github.event.release.published_at }}" >> $GITHUB_ENV
+
+      - name: Set app release data
+        run: |
+          sed -i -- 's/%BUILD-VERSION%/'${{ env.RELEASE_VERSION }}'/g' dist/index.html
+          echo "Build Version = ${{ env.RELEASE_VERSION }}"
+          sed -i -- 's/%BUILD-DATE%/'${{ env.RELEASE_DATE }}'/g' dist/index.html
+          echo "Build Date = ${{ env.RELEASE_DATE }}"
           
       - name: Zip build
         run: zip -r ./dist.zip ./dist
 
-      - name: Define release version
-        run: |
-          echo "RELEASE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           
       - name: Upload release asset
         id: upload-release-asset
