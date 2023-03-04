@@ -31,7 +31,7 @@ Set up Prettier by:
 
 1. Verifying that a Prettier package is specified, such as `~\IdeaProjects\react-vite-prettier\node_modules\prettier`.
 2. Verifying that it is run for files `{**/*,*}.{js,ts,jsx,tsx,css,less,scss,vue,json}`.
-3. The "On 'Reformat Code'" action checkbox is enabled.
+3. The "On 'Reformat Code' action" checkbox is enabled.
 4. The "On Save" checkbox is enabled.
 
 ![prettier-config](https://user-images.githubusercontent.com/90792675/222812153-801e0500-5f0e-4b85-b780-d403d1cd3f7c.png)
