@@ -1,9 +1,25 @@
-import { useState } from "react";
+import React from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import Clock from "./components/clock/Clock";
+import useToggle from "./hooks/use-toggle";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = React.useState(0);
+
+  const [showEmoji, toggleEmoji] = useToggle();
+
+  React.useEffect(() => {
+    function handleMouseMove() {
+      setCount((count) => count + 1);
+    }
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -23,10 +39,13 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+        <Clock />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <button onClick={toggleEmoji}>Toggle Emoji</button>
+      {showEmoji && <p>😀😃😄😁😆😅😂🤣</p>}
     </div>
   );
 }
