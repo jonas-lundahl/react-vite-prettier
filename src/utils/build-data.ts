@@ -3,14 +3,17 @@ const DEFAULT_BUILD_VERSION = "SNAPSHOT";
 const DEFAULT_BUILD_DATE = getAsBuildDateString(new Date());
 
 function getBuildData(): [string, string] {
-  const buildVersionMeta = document.querySelector('meta[name="build-version"]');
-
   let buildVersion: string;
   let buildDate: string;
 
+  const buildVersionMeta = document.querySelector('meta[name="build-version"]');
   if (buildVersionMeta) {
-    const content = buildVersionMeta.getAttribute("content");
-    buildVersion = content || DEFAULT_BUILD_VERSION;
+    let content = buildVersionMeta.getAttribute("content");
+    if (!(content && !content.includes("%"))) {
+      // Use default if placeholder in place
+      content = DEFAULT_BUILD_VERSION;
+    }
+    buildVersion = content;
   } else {
     buildVersion = DEFAULT_BUILD_VERSION;
   }
@@ -18,7 +21,7 @@ function getBuildData(): [string, string] {
   const buildDateMeta = document.querySelector('meta[name="build-date"]');
   if (buildDateMeta) {
     let content = buildDateMeta.getAttribute("content");
-    if (content) {
+    if (content && !content.includes("%")) {
       content = getAsBuildDateString(new Date(content));
     } else {
       content = DEFAULT_BUILD_DATE;
