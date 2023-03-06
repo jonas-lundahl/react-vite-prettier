@@ -4,9 +4,10 @@ import "./App.css";
 import Clock from "./components/clock/Clock";
 import useToggle from "./hooks/use-toggle";
 import getBuildData from "./utils/build-data";
+import version from "./utils/version";
 
 function App() {
-  const [version, setVersion] = React.useState("");
+  const [oldVersion, setOldVersion] = React.useState("");
 
   const [count, setCount] = React.useState(0);
 
@@ -26,11 +27,12 @@ function App() {
 
   React.useEffect(() => {
     const [buildVersion, buildDate] = getBuildData();
-    setVersion(`${buildVersion} ${buildDate}`);
+    setOldVersion(`${buildVersion} ${buildDate}`);
   }, []);
 
   return (
     <div className="App">
+      {oldVersion && <p>Old Version: {oldVersion}</p>}
       {version && <p>Version: {version}</p>}
       <div>
         <a href="https://vitejs.dev" target="_blank">
