@@ -17,22 +17,23 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Print branch and commit
+      - name: Print debugging
         run: |
           echo Current branch: $(git rev-parse --abbrev-ref HEAD)
           echo Current commit: $(git rev-parse HEAD)
+          echo Current tag: $(git describe --tags --abbrev=0 || echo 0.0)
 
       - name: Get current tag version
         id: get_version
         run: |
-          echo ::set-output name=version::$(git describe --tags --abbrev=0 || echo 0.0)
-          echo ::set-output name=releaseDate::$(date -u +"%y%m%d.%H%M%S" --date=now)
+          echo "VERSION=$(git describe --tags --abbrev=0 || echo 0.0)" >> $GITHUB_ENV
+          echo "RELEASE_DATE=$(date -u +"%y%m%d.%H%M%S" --date=now)" >> $GITHUB_ENV
 
       - name: Create new tag
         id: create_tag
         run: |
-          git tag ${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.releaseDate }}
-          echo ::set-output name=tag_ref::${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.releaseDate }}
+          git tag ${{ env.VERSION }}-${{ env.RELEASE_DATE }}
+          echo "TAG_REF=${{ env.VERSION }}-${{ env.RELEASE_DATE }}" >> $GITHUB_ENV
 
       - name: Create release
         id: create_release
@@ -40,15 +41,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.tag_ref }}
-          release_name: Release ${{ steps.create_tag.outputs.tag_ref }}
+          tag_name: ${{ env.TAG_REF }}
+          release_name: ${{ env.TAG_REF }}
+          draft: false # create a published release
           body: |
-            Release ${{ steps.create_tag.outputs.tag_ref }}
+            Automatic release of ${{ env.TAG_REF }}
 
       - name: Push tag and release reference
         uses: EndBug/add-and-commit@v7
         with:
-          message: "Release ${{ steps.create_tag.outputs.tag_ref }}"
+          message: "Automatic release of ${{ env.TAG_REF }}"
           add: "."
           branch: main
           signoff: true
