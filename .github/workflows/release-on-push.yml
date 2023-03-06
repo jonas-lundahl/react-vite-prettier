@@ -47,13 +47,7 @@ jobs:
           body: |
             Automatic release of ${{ env.TAG_REF }}
 
-      - name: Push tag and release reference
-        uses: EndBug/add-and-commit@v7
-        with:
-          message: "Automatic release of ${{ env.TAG_REF }}"
-          add: "."
-          branch: main
-          signoff: true
-          author_name: "GitHub Action"
-          author_email: "action@github.com"
-          sign_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      - name: Publish Release
+        run: |
+          git tag -a ${{ env.TAG_REF }} -m "${{ env.TAG_REF }}"
+          git push upstream ${{ env.TAG_REF }}
