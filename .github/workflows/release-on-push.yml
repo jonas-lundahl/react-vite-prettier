@@ -26,8 +26,8 @@ jobs:
       - name: Create new tag
         id: create_tag
         run: |
-          git tag ${{ steps.get_version.outputs.version }} ${{ steps.get_version.outputs.releaseDate }}
-          echo ::set-output name=tag_ref::${{ steps.get_version.outputs.version }} ${{ steps.get_version.outputs.releaseDate }}
+          git tag ${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.releaseDate }}
+          echo ::set-output name=tag_ref::${{ steps.get_version.outputs.version }}-${{ steps.get_version.outputs.releaseDate }}
 
       - name: Create release
         id: create_release
