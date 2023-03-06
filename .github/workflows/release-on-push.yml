@@ -17,6 +17,11 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+      - name: Print branch and commit
+        run: |
+          echo Current branch: $(git rev-parse --abbrev-ref HEAD)
+          echo Current commit: $(git rev-parse HEAD)
+
       - name: Get current tag version
         id: get_version
         run: |
