@@ -46,8 +46,3 @@ jobs:
           draft: false # create a published release
           body: |
             Automatic release of ${{ env.TAG_REF }}
-
-      - name: Publish Release
-        run: |
-          git tag -a ${{ env.TAG_REF }} -m "${{ env.TAG_REF }}"
-          git push upstream ${{ env.TAG_REF }}
