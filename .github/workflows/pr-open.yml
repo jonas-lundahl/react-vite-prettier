@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: mshick/add-pr-comment@v1
         with:
-          message: Please set a versioning label of either `major`, `minor`, or `patch` to the pull request.\n Use label `no-bump` for no version update.
+          message: Please set a versioning label of either `major`, `minor`, or `patch` to the pull request.\nUse label `no-bump` for no version update.
           repo-token: ${{ secrets.GITHUB_TOKEN }}
