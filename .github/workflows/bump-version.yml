@@ -29,9 +29,9 @@ jobs:
 
           npm version $VERSION_TYPE
           git push origin HEAD:version-bump-${{ github.event.inputs.version_type }}
-
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update NPM package version
@@ -48,8 +48,8 @@ jobs:
           checks: 'build'
           timeout-minutes: 10
 
-      - name: Merge pull request
-        uses: octokit/action-merge-pull-request@v1
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
         with:
           pull_number: ${{ github.event.pull_request.number }}
           merge_method: squash
