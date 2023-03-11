@@ -40,18 +40,21 @@ jobs:
           branch: new-version
           base: main
 
-      - name: Wait for status checks
-        uses: joelwmale/wait-for-status@v0.4.0
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.1.0
+        id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.event.pull_request.head.sha }}
-          checks: 'build'
-          timeout-minutes: 10
+          checkName: build
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
         with:
-          pull_number: ${{ github.event.pull_request.number }}
-          merge_method: squash
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
+          method: squash # merge rebase
           delete_branch: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          repo: juliangruber/octokit-action
+          
