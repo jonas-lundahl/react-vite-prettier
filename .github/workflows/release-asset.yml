@@ -23,7 +23,9 @@ jobs:
         run: npm ci
 
       - name: Build application
-        run: npm run build
+        run: |
+          npm version ${{ env.APP_VERSION }} --no-git-tag-version
+          npm run build
 
       - name: Check build status
         run: |
