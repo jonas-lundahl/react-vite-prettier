@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-import Clock from "./components/clock/Clock";
+import Clock from "./components/Clock";
 import useToggle from "./hooks/use-toggle";
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}!!
+          count is {count}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
