@@ -27,16 +27,6 @@ jobs:
           npm version ${{ env.APP_VERSION }} --no-git-tag-version
           npm run build
 
-      - name: Check build status
-        run: |
-          if [ $? -eq 0 ]
-          then
-            echo "Build successful!"
-          else
-            echo "Build failed!"
-            exit 1
-          fi
-
       - name: Zip build
         run: (cd ./dist && zip -r ../dist.zip .)
 
