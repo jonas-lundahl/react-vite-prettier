@@ -37,7 +37,7 @@ jobs:
         run: npm version patch
         
       - name: Git push version bump
-        run: git push origin main --follow-tags --force
+        run: git push origin main --force
         
       - id: set-version
         name: Output version change
