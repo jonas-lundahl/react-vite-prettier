@@ -27,17 +27,18 @@ jobs:
             exit 1
           fi
 
-          npm version $VERSION_TYPE
-          git push origin HEAD:version-bump-${{ github.event.inputs.version_type }}
+          git checkout -b version-bump-${{ github.event.inputs.version_type }}
+          npm version ${{ github.event.inputs.version_type }}
+          git push -u origin version-bump-${{ github.event.inputs.version_type }}
       
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Update NPM package version
-          title: Update NPM package version
-          body: Automatic update to NPM package version using GitHub Actions
-          branch: new-version
+          commit-message: Update NPM package ${{ github.event.inputs.version_type }} version
+          title: Update NPM package ${{ github.event.inputs.version_type }} version
+          body: Automatic update to NPM package version to ${{ github.event.inputs.version_type }}.
+          branch: version-bump-${{ github.event.inputs.version_type }}
           base: main
 
       - name: Wait for build to succeed
