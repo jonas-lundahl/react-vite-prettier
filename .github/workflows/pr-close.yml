@@ -6,7 +6,7 @@ on:
 jobs:
   merge_pr:
     name: 'PR Merged'
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'no-bump') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,10 +14,6 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'npm'
-          
-      - name: Check if no version bump
-        if: contains(github.event.pull_request.labels.*.name, 'no-bump')
-        run: exit 0
           
       - name: Git config
         run: |
