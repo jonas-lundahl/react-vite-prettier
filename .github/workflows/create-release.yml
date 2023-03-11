@@ -1,0 +1,57 @@
+name: Bump NPM Package Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Specify if the version type bump is 'major', 'minor', or 'patch'."
+        required: true
+        default: "patch"
+
+jobs:
+  update-npm-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update package version
+        run: |
+          if [ -z "${{ github.event.inputs.version_type }}" ]; then
+            echo "Version type input is required!"
+            exit 1
+          fi
+
+          if ! [[ "${{ github.event.inputs.version_type }}" =~ ^(major|minor|patch)$ ]]; then
+            echo "Version type input must be 'major', 'minor', or 'patch'!"
+            exit 1
+          fi
+
+          npm version $VERSION_TYPE
+          git push origin HEAD:version-bump-${{ github.event.inputs.version_type }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update NPM package version
+          title: Update NPM package version
+          body: Automatic update to NPM package version using GitHub Actions
+          branch: new-version
+          base: main
+
+      - name: Wait for status checks
+        uses: joelwmale/wait-for-status@v0.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          checks: 'build'
+          timeout-minutes: 10
+
+      - name: Merge pull request
+        uses: octokit/action-merge-pull-request@v1
+        with:
+          pull_number: ${{ github.event.pull_request.number }}
+          merge_method: squash
+          delete_branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}
