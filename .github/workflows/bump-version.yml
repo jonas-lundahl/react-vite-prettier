@@ -1,0 +1,68 @@
+name: Bump NPM Package Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Specify if the version type bump is 'major', 'minor', or 'patch'."
+        required: true
+        default: "patch"
+
+jobs:
+  update-npm-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+         git config --global user.name "GitHub Action"
+         git config --global user.email "action@github.com"
+
+      - name: Sanity check workflow input
+        run: |
+          if [ -z "${{ github.event.inputs.version_type }}" ]; then
+            echo "Version type input is required!"
+            exit 1
+          fi
+
+          if ! [[ "${{ github.event.inputs.version_type }}" =~ ^(major|minor|patch)$ ]]; then
+            echo "Version type input must be 'major', 'minor', or 'patch'!"
+            exit 1
+          fi
+
+      - name: Update package version
+        run: |
+          git checkout -b version-bump-${{ github.event.inputs.version_type }}
+          npm version ${{ github.event.inputs.version_type }}
+          git push -u origin version-bump-${{ github.event.inputs.version_type }}
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update NPM package ${{ github.event.inputs.version_type }} version
+          title: Update NPM package ${{ github.event.inputs.version_type }} version
+          body: Automatic update to NPM package version to ${{ github.event.inputs.version_type }}.
+          branch: version-bump-${{ github.event.inputs.version_type }}
+          base: main
+
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.1.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: build
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
+          method: squash # merge rebase
+          delete_branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repo: juliangruber/octokit-action
+          
