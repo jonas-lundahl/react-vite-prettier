@@ -21,7 +21,7 @@ jobs:
         run: |
           echo Current branch: $(git rev-parse --abbrev-ref HEAD)
           echo Current commit: $(git rev-parse HEAD)
-          echo Current tag: $(git describe --tags --abbrev=0 || echo 0.0)
+          echo Current tag: ${{ github.ref_name }}"
 
       - name: Get current tag version
         id: get_version
