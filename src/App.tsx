@@ -3,14 +3,9 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import Clock from "./components/clock/Clock";
 import useToggle from "./hooks/use-toggle";
-import getBuildData from "./utils/build-data";
-import version from "./utils/version";
 
 function App() {
-  const [oldVersion, setOldVersion] = React.useState("");
-
   const [count, setCount] = React.useState(0);
-
   const [showEmoji, toggleEmoji] = useToggle();
 
   React.useEffect(() => {
@@ -25,15 +20,9 @@ function App() {
     };
   }, []);
 
-  React.useEffect(() => {
-    const [buildVersion, buildDate] = getBuildData();
-    setOldVersion(`${buildVersion} ${buildDate}`);
-  }, []);
-
   return (
     <div className="App">
-      {oldVersion && <p>Old Version: {oldVersion}</p>}
-      {version && <p>Version: {version}</p>}
+      {APP_VERSION && <p>Version: {APP_VERSION}</p>}
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
