@@ -1,4 +1,5 @@
 import * as React from 'react';
+import reactLogo from '../../assets/react.svg';
 
 function AboutUs() {
   return (
@@ -8,6 +9,7 @@ function AboutUs() {
         <li>We are developers.</li>
         <li>We hate making forms.</li>
       </ul>
+      <img src={reactLogo} alt="React Logo" />
     </div>
   );
 }
