@@ -1,11 +1,11 @@
-import * as React from "react";
-import format from "date-fns/format";
+import * as React from 'react';
+import format from 'date-fns/format';
 
 interface ClockProps {
   timeFormat?: string;
 }
 
-function Clock({ timeFormat = "k:mm:ss" }: ClockProps) {
+function Clock({ timeFormat = 'k:mm:ss' }: ClockProps) {
   const [time, setTime] = React.useState(new Date());
 
   React.useEffect(() => {
@@ -18,7 +18,7 @@ function Clock({ timeFormat = "k:mm:ss" }: ClockProps) {
     };
   }, []);
 
-  return <span className={"clock"}>{format(time, timeFormat)}</span>;
+  return <span className={'clock'}>{format(time, timeFormat)}</span>;
 }
 
 export default Clock;
